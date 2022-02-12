@@ -10,7 +10,10 @@ Examples:
 */
 
 function extractValue(arr, key){
-    g
+    return arr.reduce(function(acc, name){
+        acc.push(name[key]);
+        return acc;
+    },[]);
 }
 
 /*
@@ -30,7 +33,20 @@ Examples:
 */
 
 function vowelCount(str){
-    g
+    const vowels = "aeiou";
+    return str.split("").reduce(function(acc, nextChar){
+        let lowerCase = nextChar.toLowerCase(); //converts to lowercase
+        if (vowels.indexOf(lowerCase)!==-1){//checks to see if the character is in the vowels if it isn't it is -1
+
+            if(acc[lowerCase]){//if a second instance of the vowel occurs after being set to 1 it 
+                acc[lowerCase]++;
+            } 
+            else{
+                acc[lowerCase] = 1;
+            }      
+        }  
+        return acc;
+    },{})
 }
 
 /*
@@ -55,18 +71,25 @@ Examples:
         ]
 */
 
-function addKeyAndValue(arr, key, value){
-    g
+function addKeyAndValue(arr, key, val){
+    return arr.reduce(function(acc,nextVal,index){//the accstartis with {nane:'name'}
+        acc[index][key] = val;//gets index of the array object and i ma not usre how the rest works
+        return acc;
+    },arr);
 }
 
 /*
 Write a function called partition which accepts an array and a 
-callback and returns an array with two arrays inside of it. The 
-partition function should run the callback function on each value 
-in the array and if the result of the callback function at that 
-specific value is true, the value should be placed in the first 
-subarray. If the result of the callback function at that specific 
-value is false, the value should be placed in the second subarray. 
+callback and returns:
+
+-an array with two arrays inside of it. 
+
+-The partition function should run the callback function on each 
+ value in the array:
+    1. if the  result of the callback function at that specific value 
+       is TRUE the value should be placed in the FIRST subarray. 
+    2. If the result of the callback function at that specific value is FALSE, 
+       the value should be placed in the SECOND subarray. 
 
 Examples:
 
@@ -84,7 +107,19 @@ Examples:
 
     const names = ['Elie', 'Colt', 'Tim', 'Matt'];
 
-    partition(names, isLongerThanThreeCharacters) // [['Elie', 'Colt', 'Matt'], ['Tim']]
+    partition(names, isLongerThanThreeCharacters) 
+    // [['Elie', 'Colt', 'Matt'], ['Tim']]
 */
 
-function partition(arr, callback) {}
+
+function partition(arr, callbackFunc){//feed in array and function for array
+    return arr.reduce(function(doubleArr,arrVal){//accumulator is an array of 2 array
+        if(callbackFunc(arrVal)){//if the fuction is true similar to (callbackFunc(arrVal)===true)
+            doubleArr[0].push(arrVal);//go to array one
+        }
+        else{//false
+            doubleArr[1].push(arrVal);//go to array two
+        }
+        return doubleArr;
+    },[[],[]]);
+}
